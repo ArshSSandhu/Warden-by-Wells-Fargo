@@ -10,16 +10,17 @@ export default function Borrow() {
   const [step, setStep] = useState(1)
   const [form, setForm] = useState({
     purpose: 'medical',
-    amount: 1000,
+    amount: '1000',
     urgency: 'flexible',
-    income: 3000,
+    income: '3000',
     employment: 'employed',
     consent: false,
     path: 'invest',
   })
   const est = useMemo(() => {
     const aprBand = form.purpose === 'medical' ? '3-6%' : form.purpose === 'tuition' ? '2-5%' : '4-9%'
-    return { amount: form.amount, aprBand, feeNote: form.path === 'invest' ? 'Invest pool may apply' : 'Community facilitation fee' }
+    const amountNum = Number(form.amount || 0)
+    return { amount: amountNum, aprBand, feeNote: form.path === 'invest' ? 'Invest pool may apply' : 'Community facilitation fee' }
   }, [form])
 
   function update(changes) {
@@ -28,7 +29,12 @@ export default function Borrow() {
 
   async function onSubmit(e) {
     e && e.preventDefault()
-    const borrowRequest = { ...form, id: `req-${Date.now()}` }
+    const borrowRequest = {
+      ...form,
+      id: `req-${Date.now()}`,
+      amount: Number(form.amount || 0),
+      income: Number(form.income || 0),
+    }
     if (form.path === 'invest') {
       // navigate to invest with state
       navigate('/invest', { state: { borrowRequest } })
@@ -54,7 +60,7 @@ export default function Borrow() {
             </label>
             <label>
               Amount
-              <input type="number" value={form.amount} onChange={(e) => update({ amount: Number(e.target.value) })} />
+              <input type="number" value={form.amount} onChange={(e) => update({ amount: e.target.value.replace(/^0+(?=\d)/, '') })} />
             </label>
             <label>
               Urgency
@@ -75,7 +81,7 @@ export default function Borrow() {
           <form onSubmit={(e) => { e.preventDefault(); setStep(3) }}>
             <label>
               Monthly Income
-              <input type="number" value={form.income} onChange={(e) => update({ income: Number(e.target.value) })} />
+              <input type="number" value={form.income} onChange={(e) => update({ income: e.target.value.replace(/^0+(?=\d)/, '') })} />
             </label>
             <label>
               Employment status
