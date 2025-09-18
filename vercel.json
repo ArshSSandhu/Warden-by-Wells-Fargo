@@ -1,0 +1,8 @@
+{
+  "builds": [
+    { "src": "wf-lender/package.json", "use": "@vercel/static-build", "config": { "distDir": "wf-lender/dist" } }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/wf-lender/index.html" }
+  ]
+}
