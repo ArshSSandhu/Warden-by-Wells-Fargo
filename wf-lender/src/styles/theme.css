@@ -1,12 +1,12 @@
+/* Typography */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Open+Sans:wght@300;400;600&display=swap');
+
 :root {
   --wf-red: #c40404;
   --wf-gold: #ffcc00;
   --wf-dark: #333333;
   --wf-bg: #f8f8f8;
 }
-
-/* Typography */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Open+Sans:wght@300;400;600&display=swap');
 
 body {
   font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
