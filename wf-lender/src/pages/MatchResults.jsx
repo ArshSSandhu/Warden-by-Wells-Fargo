@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
 import Badge from '../components/Badge'
+import { fmt, pct } from '../utils/money'
 
 export default function MatchResults() {
   const { state } = useLocation()
@@ -32,15 +33,16 @@ export default function MatchResults() {
       </label>
 
       <div className="grid">
-        {sorted.map((offer) => (
+    {sorted.map((offer) => (
           <Card key={offer.id} title={offer.lenderName} footer={<div>${offer.monthlyPayment}/mo • ${offer.totalCost} total</div>}>
             <div>
               {offer.categories.map((c) => <Badge key={c}>{c}</Badge>)}
             </div>
-            <p>APR: {offer.apr}%</p>
-            <p>Facilitation fee: ${offer.facilitationFee} ({offer.feePolicy === 'lender_pays' ? 'Lender pays' : 'Borrower pays'})</p>
+      <p>APR: {pct(offer.apr)}</p>
+      <p>Facilitation fee: {fmt(offer.facilitationFee)} ({offer.feePolicy === 'lender_pays' ? 'Lender pays' : 'Borrower pays'})</p>
             <p>{offer.sameDay ? 'Same-day available' : 'Standard processing'}</p>
-            <details>
+      <p className="contrast">{offer.explanation}</p>
+      <details>
               <summary>View terms</summary>
               <pre>Amount: ${offer.amount}
 APR: {offer.apr}%

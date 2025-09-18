@@ -1,10 +1,12 @@
 import seedLenders from '../data/seed'
+import store from '../data/store'
+import { monthlyPayment as utilMonthlyPayment } from '../utils/money'
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms))
 
 export async function fetchLenders() {
   await delay(200)
-  return seedLenders
+  return store.getLenders()
 }
 
 function scoreLender(lender, borrowRequest) {
@@ -35,8 +37,18 @@ function scoreLender(lender, borrowRequest) {
 
 export async function matchLenders(borrowRequest) {
   await delay(400)
-  const lenders = seedLenders.map((l) => ({ ...l }))
-  const scored = lenders.map((l) => ({ lender: l, score: scoreLender(l, borrowRequest) }))
+  const lenders = store.getLenders().map((l) => ({ ...l }))
+  const scored = lenders.map((l) => {
+    const score = scoreLender(l, borrowRequest)
+    // AI-style explanation
+    const parts = []
+    if (l.categories.includes(borrowRequest.purpose)) parts.push(`Prioritizing ${borrowRequest.purpose.toUpperCase()} purpose`)
+    if (borrowRequest.amount <= l.maxAmount && borrowRequest.amount >= l.minAmount) parts.push('within your requested range')
+    if (borrowRequest.urgency === 'today' && l.sameDay) parts.push('same-day funding')
+    parts.push(l.feePolicy === 'lender_pays' ? 'lender-pays fee policy' : 'borrower-pays fee policy')
+    const explanation = parts.join(', ') + '.'
+    return { lender: l, score, explanation }
+  })
   scored.sort((a, b) => b.score - a.score)
   return scored
 }
@@ -52,11 +64,11 @@ export async function submitBorrowRequest(borrowRequest) {
   await delay(500)
   const matches = await matchLenders(borrowRequest)
   const top = matches.slice(0, 3)
-  const offers = top.map(({ lender, score }, idx) => {
+  const offers = top.map(({ lender, score, explanation }, idx) => {
     const apr = Math.max(1.5, lender.apr + idx * 0.5) // small variation
     const amount = Math.min(borrowRequest.amount, lender.maxAmount)
     const months = 12
-    const monthly = monthlyPayment(amount, apr, months)
+    const monthly = utilMonthlyPayment(amount, apr, months)
     const total = Math.round(monthly * months)
     const facilitationFee = Math.round((lender.facilitationFeePct / 100) * amount)
     return {
@@ -73,6 +85,7 @@ export async function submitBorrowRequest(borrowRequest) {
       feePolicy: lender.feePolicy,
       sameDay: lender.sameDay,
       score,
+      explanation,
     }
   })
   return offers
