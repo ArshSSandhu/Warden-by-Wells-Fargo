@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
+import './styles/theme.css'
 import Home from './pages/Home'
 import Borrow from './pages/Borrow'
 import Lend from './pages/Lend'

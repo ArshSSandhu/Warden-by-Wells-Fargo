@@ -1,0 +1,48 @@
+:root {
+  --wf-red: #c40404;
+  --wf-gold: #ffcc00;
+  --wf-dark: #333333;
+  --wf-bg: #f8f8f8;
+}
+
+/* Typography */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Open+Sans:wght@300;400;600&display=swap');
+
+body {
+  font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: var(--wf-dark);
+  background: var(--wf-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  color: var(--wf-dark);
+}
+
+.wf-banner {
+  width: 100%;
+  background: var(--wf-red);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+.wf-banner img { max-width: 160px; display:block; margin: 0 auto 0.5rem }
+
+/* Buttons */
+button {
+  background: var(--wf-red);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover { background: var(--wf-gold); color: var(--wf-dark) }
+
+.card { background: white; padding: 1rem; border-radius: 8px }
+
+.toast { background: #e6f4ff; padding: 8px; margin-top: 8px }
+
+/* small responsive grid */
+.grid { display: grid; gap: 1rem }
+@media(min-width:700px) { .grid { grid-template-columns: 1fr 320px } }
