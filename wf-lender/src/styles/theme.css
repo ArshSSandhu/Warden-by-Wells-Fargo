@@ -12,37 +12,58 @@ body {
   font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   color: var(--wf-dark);
   background: var(--wf-bg);
+  margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
   color: var(--wf-dark);
+  margin: 0 0 0.5rem 0;
 }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 1rem }
 
 .wf-banner {
   width: 100%;
-  background: var(--wf-red);
+  background: linear-gradient(90deg, rgba(196,4,4,1) 0%, rgba(200,20,20,1) 100%);
   color: white;
-  padding: 2rem 1rem;
+  padding: 2.4rem 1rem;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
-.wf-banner img { max-width: 160px; display:block; margin: 0 auto 0.5rem }
+.wf-banner img { max-width: 180px; display:block; margin: 0 auto 0.5rem }
+.wf-banner h2 { font-size: 1.6rem; font-weight:700 }
 
 /* Buttons */
 button {
   background: var(--wf-red);
   color: white;
   border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
+  padding: 0.7rem 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
 }
 button:hover { background: var(--wf-gold); color: var(--wf-dark) }
 
-.card { background: white; padding: 1rem; border-radius: 8px }
+.btn-ghost { background: transparent; border: 1px solid rgba(0,0,0,0.06); color: var(--wf-dark) }
 
-.toast { background: #e6f4ff; padding: 8px; margin-top: 8px }
+.card { background: white; padding: 1.2rem; border-radius: 12px; box-shadow: 0 6px 18px rgba(19,19,19,0.04) }
+.card h3 { margin-top: 0; margin-bottom: 0.5rem }
 
-/* small responsive grid */
-.grid { display: grid; gap: 1rem }
-@media(min-width:700px) { .grid { grid-template-columns: 1fr 320px } }
+.toast { background: #e6f4ff; padding: 8px; margin-top: 8px; border-radius: 6px }
+
+/* responsive grid for home cards */
+.home-cards { display: grid; gap: 1rem; grid-template-columns: 1fr }
+@media(min-width:900px) { .home-cards { grid-template-columns: repeat(3, 1fr) } }
+
+.hero-cta { margin-top: 1rem }
+
+/* header nav adjustments */
+.nav ul { display:flex; gap: 12px; align-items:center }
+.nav a { color: var(--wf-dark); text-decoration: none }
+.nav a:hover { color: var(--wf-red) }
+
+/* reserve space for footer */
+main, .container { padding-bottom: 72px }
+
